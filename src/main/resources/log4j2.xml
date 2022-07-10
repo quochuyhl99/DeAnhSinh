@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+  <Properties>
+    <Property name="filename">./logs</Property>
+  </Properties>
+  <Appenders>
+    <RollingFile name="infoFile" fileName="${filename}/info.log" filePattern="${filename}/info-%d{dd-MM-yyyy}.log" append="false">
+      <Filters>
+        <!-- Now deny warn, error and fatal messages -->
+        <ThresholdFilter level="warn" onMatch="DENY" onMismatch="NEUTRAL" />
+        <!-- This filter accepts info, warn, error, fatal and denies debug/trace -->
+        <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY" />
+      </Filters>
+      <PatternLayout>
+        <pattern>%d{dd/MM/yyyy HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+      </PatternLayout>
+      <SizeBasedTriggeringPolicy size="10 KB" />
+    </RollingFile>
+    <RollingFile name="errorFile" fileName="${filename}/error.log" filePattern="${filename}/error-%d{dd-MM-yyyy}.log">
+      <Filters>
+        <!-- Now deny fatal messages -->
+        <ThresholdFilter level="fatal" onMatch="DENY" onMismatch="NEUTRAL" />
+        <!-- This filter accepts error, fatal and denies debug/trace -->
+        <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY" />
+      </Filters>
+      <PatternLayout>
+        <pattern>%d{dd/MM/yyyy HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+      </PatternLayout>
+      <SizeBasedTriggeringPolicy size="1 MB" />
+    </RollingFile>
+    <Console name="Console" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+    </Console>
+  </Appenders>
+  <Loggers>
+    <Logger name="org.reflections" level="info" additivity="false">
+      <AppenderRef ref="infoFile" />
+      <AppenderRef ref="errorFile" />
+    </Logger>
+    <Logger name="com.mchange.v2.c3p0" level="info" additivity="false">
+      <AppenderRef ref="infoFile" />
+      <AppenderRef ref="errorFile" />
+    </Logger>
+    <Logger name="org.hibernate.SQL" level="debug" additivity="false">
+      <AppenderRef ref="infoFile" />
+    </Logger>
+    <Root level="error">
+      <AppenderRef ref="Console" />
+    </Root>
+  </Loggers>
+</Configuration>

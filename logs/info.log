@@ -1,0 +1,84 @@
+10/07/2022 21:27:46 INFO  org.reflections.Reflections - Reflections took 187 ms to scan 1 urls, producing 4 keys and 12 values
+10/07/2022 21:27:47 INFO  com.mchange.v2.c3p0.C3P0Registry - Initializing c3p0-0.9.5.5 [built 11-December-2019 22:18:33 -0800; debug? true; trace: 10]
+10/07/2022 21:27:47 INFO  com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@7b7115d8 [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@c3b996f2 [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceSynchronousCheckins -> false, identityToken -> 1hge13bap1sigxvg1vquhlc|28ec166e, idleConnectionTestPeriod -> 3000, initialPoolSize -> 5, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 300, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 20, maxStatements -> 50, maxStatementsPerConnection -> 0, minPoolSize -> 5, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@9fae0363 [ description -> null, driverClass -> null, factoryClassLocation -> null, forceUseNamedDriverClass -> false, identityToken -> 1hge13bap1sigxvg1vquhlc|61a88b8c, jdbcUrl -> jdbc:sqlserver://localhost:1434;database=hibernate_de_anh_sinh;encrypt=true;trustServerCertificate=true;integratedSecurity=true;, properties -> {} ], preferredTestQuery -> null, privilegeSpawnedThreads -> false, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, extensions -> {}, factoryClassLocation -> null, identityToken -> 1hge13bap1sigxvg1vquhlc|6bbe2511, numHelperThreads -> 3 ]
+10/07/2022 21:27:51 DEBUG org.hibernate.SQL - 
+    
+    alter table EMP_DEP 
+       drop constraint FK5jtvfvjtmso45rlmeernxxxgk
+10/07/2022 21:27:51 DEBUG org.hibernate.SQL - 
+    
+    alter table EMP_DEP 
+       drop constraint FK3nsimk38kqwxk4sj7c0cqs30o
+10/07/2022 21:27:51 DEBUG org.hibernate.SQL - 
+    
+    alter table SALARIES 
+       drop constraint FKsjldi6biurnk3dyse1od3iou3
+10/07/2022 21:27:51 DEBUG org.hibernate.SQL - 
+    
+    drop table DEPARTMENTS
+10/07/2022 21:27:51 DEBUG org.hibernate.SQL - 
+    
+    drop table EMP_DEP
+10/07/2022 21:27:51 DEBUG org.hibernate.SQL - 
+    
+    drop table EMPLOYEES
+10/07/2022 21:27:51 DEBUG org.hibernate.SQL - 
+    
+    drop table SALARIES
+10/07/2022 21:27:51 DEBUG org.hibernate.SQL - 
+    
+    create table DEPARTMENTS (
+       Id varchar(255) not null,
+        Name varchar(255),
+        primary key (Id)
+    )
+10/07/2022 21:27:51 DEBUG org.hibernate.SQL - 
+    
+    create table EMP_DEP (
+       DepId varchar(255) not null,
+        EmpId int not null,
+        FromDate date,
+        ToDate date,
+        primary key (DepId, EmpId)
+    )
+10/07/2022 21:27:51 DEBUG org.hibernate.SQL - 
+    
+    create table EMPLOYEES (
+       Id int identity not null,
+        ExpirationDate date,
+        HireDate date,
+        Name varchar(255),
+        primary key (Id)
+    )
+10/07/2022 21:27:51 DEBUG org.hibernate.SQL - 
+    
+    create table SALARIES (
+       EmpId int not null,
+        FromDate date not null,
+        Salary int,
+        ToDate date,
+        primary key (EmpId, FromDate)
+    )
+10/07/2022 21:27:51 DEBUG org.hibernate.SQL - 
+    
+    alter table EMP_DEP 
+       add constraint FK5jtvfvjtmso45rlmeernxxxgk 
+       foreign key (DepId) 
+       references DEPARTMENTS
+10/07/2022 21:27:51 DEBUG org.hibernate.SQL - 
+    
+    alter table EMP_DEP 
+       add constraint FK3nsimk38kqwxk4sj7c0cqs30o 
+       foreign key (EmpId) 
+       references EMPLOYEES
+10/07/2022 21:27:51 DEBUG org.hibernate.SQL - 
+    
+    alter table SALARIES 
+       add constraint FKsjldi6biurnk3dyse1od3iou3 
+       foreign key (EmpId) 
+       references EMPLOYEES
+10/07/2022 21:27:51 DEBUG org.hibernate.SQL - 
+    SELECT
+        TOP(1) NULL 
+    FROM
+        DEPARTMENTS
